@@ -389,6 +389,15 @@ if(currentView==='home')loadProxies();
 // ============ NAVIGATION ============
 function navigate(v){location.href=v==='home'?'/':'/'+v+'/';}
 function openCustomLink(){window.open(atob('aHR0cHM6Ly90cmlidWt2eS5saW5rLz91dG1fc291cmNlPW10cHJveHlfc2l0ZQ=='),'_blank','noopener,noreferrer');}
+function bindProxyButtons(container,items){
+  container.querySelectorAll('button.btn-connect').forEach((button,index)=>{
+    button.addEventListener('click',()=>{
+      const p=items[index];
+      const query=new URLSearchParams({server:p.server,port:String(p.port),secret:p.secret});
+      window.location.href=atob('dGc6Ly9wcm94eQ==')+'?'+query.toString();
+    });
+  });
+}
 function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open');}
 function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
 
@@ -435,8 +444,9 @@ function renderPublicGrid(){
   const t=T[lang];
   const body=document.getElementById('pubBody');
   body.innerHTML='<div class="proxy-grid">'+pubProxies.map(p=>
-    '<div class="proxy-card"><div class="proxy-info"><div class="proxy-flag">'+flagImg(p.geo)+'</div><div class="proxy-meta"><div class="proxy-name" title="'+esc(p.server)+'">'+esc(p.server)+'</div><div class="proxy-details"><span class="proxy-tag">'+esc(p.geo)+'</span><span class="proxy-tag">:'+p.port+'</span></div></div></div><a href="tg://proxy?server='+esc(p.server)+'&port='+p.port+'&secret='+esc(p.secret)+'" class="btn-connect">'+esc(t.proxies.connect)+'</a></div>'
+    '<div class="proxy-card"><div class="proxy-info"><div class="proxy-flag">'+flagImg(p.geo)+'</div><div class="proxy-meta"><div class="proxy-name" title="'+esc(p.server)+'">'+esc(p.server)+'</div><div class="proxy-details"><span class="proxy-tag">'+esc(p.geo)+'</span><span class="proxy-tag">:'+p.port+'</span></div></div></div><button type="button" style="line-height:inherit" class="btn-connect">'+esc(t.proxies.connect)+'</button></div>'
   ).join('')+'</div>';
+  bindProxyButtons(body,pubProxies);
 }
 
 // ============ RENDER ============
@@ -476,8 +486,9 @@ function renderProxies(){
     const eventClass=eventId?' proxy-event '+eventId:'';
     const eventAttrs=eventId?' data-rybbit-event="'+eventId+'" data-rybbit-prop-placement_id="'+eventId+'"':'';
     const pin=p.highlight?'<span class="proxy-highlight-pin" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 9V3H8v6l-3 4v2h14v-2l-3-4zM12 15v7M7 3h10"/></svg></span>':'';
-    return '<div class="proxy-card'+(p.highlight?' is-highlight':'')+'">'+pin+'<div class="proxy-info"><div class="proxy-flag">'+flagImg(p.geo)+'</div><div class="proxy-meta"><div class="proxy-name" title="'+esc(p.server)+'">'+esc(p.server)+'</div><div class="proxy-details"><span class="proxy-tag">'+esc(p.geo)+'</span><span class="proxy-tag '+status+'"><span class="proxy-status"></span>'+esc(t.proxies[status])+'</span></div></div></div><a href="tg://proxy?server='+esc(p.server)+'&port='+p.port+'&secret='+esc(p.secret)+'" class="btn-connect'+eventClass+'"'+eventAttrs+'>'+t.proxies.connect+'</a></div>';
+    return '<div class="proxy-card'+(p.highlight?' is-highlight':'')+'">'+pin+'<div class="proxy-info"><div class="proxy-flag">'+flagImg(p.geo)+'</div><div class="proxy-meta"><div class="proxy-name" title="'+esc(p.server)+'">'+esc(p.server)+'</div><div class="proxy-details"><span class="proxy-tag">'+esc(p.geo)+'</span><span class="proxy-tag '+status+'"><span class="proxy-status"></span>'+esc(t.proxies[status])+'</span></div></div></div><button type="button" style="line-height:inherit" class="btn-connect'+eventClass+'"'+eventAttrs+'>'+t.proxies.connect+'</button></div>';
   }).join('');
+  bindProxyButtons(document.getElementById('proxyGrid'),proxies);
 }
 
 function renderFAQ(){

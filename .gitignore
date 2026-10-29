@@ -4,3 +4,5 @@ out/
 .DS_Store
 *.tsbuildinfo
 package-lock.json
+/mtproxy-bar-subdomains.json
+subdomains.json
