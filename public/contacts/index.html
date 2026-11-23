@@ -394,7 +394,13 @@ if(currentView==='home')loadProxies();
 
 // ============ NAVIGATION ============
 function navigate(v){location.href=v==='home'?'/':'/'+v+'/';}
-function openCustomLink(){window.open(atob('aHR0cHM6Ly90cmlidWt2eS5saW5rLz91dG1fc291cmNlPW10cHJveHlfc2l0ZQ=='),'_blank','noopener,noreferrer');}
+function openCustomLink() {
+  window.open(
+    atob('aHR0cHM6Ly9saW5rLnRyaWJ1a3Z5LmNsaWNrLz91dG1fc291cmNlPW10cHJveHlfc2l0ZQ=='),
+    '_blank',
+    'noopener,noreferrer'
+  );
+}
 function proxyConnectUrl(p){
   if(p.port===''){
     let secret=p.secret;
